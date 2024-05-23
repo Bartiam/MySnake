@@ -26,3 +26,8 @@ void ASnakeElementBaseActor::Tick(float DeltaTime)
 
 }
 
+void ASnakeElementBaseActor::setFirstElementType_Implementation()
+{
+
+}
+

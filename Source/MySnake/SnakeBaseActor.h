@@ -8,6 +8,15 @@
 
 class ASnakeElementBaseActor;
 
+UENUM()
+enum class EMovement
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+};
+
 UCLASS()
 class MYSNAKE_API ASnakeBaseActor : public AActor
 {
@@ -23,6 +32,12 @@ public:
 	UPROPERTY()
 	TArray<ASnakeElementBaseActor*> snakeElements;
 
+	UPROPERTY()
+	EMovement lastMovement;
+
+	UPROPERTY(EditDefaultsOnly)
+	float movementSpeed;
+
 	UPROPERTY(EditDefaultsOnly)
 	float padding;
 
@@ -35,5 +50,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void AddSnakeElements(int count = 1);
+
+	void MoveSnake();
 
 };

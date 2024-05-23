@@ -10,20 +10,23 @@ ASnakeBaseActor::ASnakeBaseActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	padding = 60.f;
+	lastMovement = EMovement::DOWN;
+	movementSpeed = 0.5f;
 }
 
 // Called when the game starts or when spawned
 void ASnakeBaseActor::BeginPlay()
 {
 	Super::BeginPlay();
-	AddSnakeElements(4);
+	AddSnakeElements(5);
+	SetActorTickInterval(movementSpeed);
 }
 
 // Called every frame
 void ASnakeBaseActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	MoveSnake();
 }
 
 void ASnakeBaseActor::AddSnakeElements(int count)
@@ -32,8 +35,46 @@ void ASnakeBaseActor::AddSnakeElements(int count)
 	{
 		FVector newLocation(snakeElements.Num() * padding, 0, 0);
 		FTransform newTransform(newLocation);
-		auto snakeElem = GetWorld()->SpawnActor<ASnakeElementBaseActor>(snakeElementClass, newTransform);
-		snakeElements.Add(snakeElem);
+		ASnakeElementBaseActor* newSnakeElem = GetWorld()->SpawnActor<ASnakeElementBaseActor>(snakeElementClass, newTransform);
+		int32 elemIndex = snakeElements.Add(newSnakeElem);
+		if (elemIndex == 0)
+		{
+			newSnakeElem->setFirstElementType();
+		}
 	}
+}
+
+void ASnakeBaseActor::MoveSnake()
+{
+	FVector movementVector(ForceInitToZero);
+	float currentSpeed = padding;
+
+	switch (lastMovement)
+	{
+	case EMovement::UP:
+		movementVector.X += currentSpeed;
+		break;
+	case EMovement::DOWN:
+		movementVector.X -= currentSpeed;
+		break;
+	case EMovement::LEFT:
+		movementVector.Y += currentSpeed;
+		break;
+	case EMovement::RIGHT:
+		movementVector.Y -= currentSpeed;
+		break;
+	}
+
+	//AddActorWorldOffset(movementVector);
+
+	for (int i = snakeElements.Num() - 1; i > 0; --i)
+	{
+		ASnakeElementBaseActor* currentElem = snakeElements[i];
+		ASnakeElementBaseActor* prevElem = snakeElements[i - 1];
+		FVector prevLocation = snakeElements[i - 1]->GetActorLocation();
+		snakeElements[i]->SetActorLocation(prevLocation);
+	}
+
+	snakeElements[0]->AddActorWorldOffset(movementVector);
 }
 

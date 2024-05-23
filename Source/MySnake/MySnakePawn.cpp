@@ -4,6 +4,7 @@
 #include "MySnakePawn.h"
 #include "Engine/Classes/Camera/CameraComponent.h"
 #include "SnakeBaseActor.h"
+#include "Components/InputComponent.h"
 
 // Sets default values
 AMySnakePawn::AMySnakePawn()
@@ -34,10 +35,32 @@ void AMySnakePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis("Vertical", this, &AMySnakePawn::HandlePlayerVerticalInput);
+	PlayerInputComponent->BindAxis("Horizontal", this, &AMySnakePawn::HandlePlayerHorizontallInput);
 }
 
 void AMySnakePawn::CreateSnakeActor()
 {
 	snakeActor = GetWorld()->SpawnActor<ASnakeBaseActor>(snakeActorClass, FTransform());
+}
+
+void AMySnakePawn::HandlePlayerVerticalInput(float value)
+{
+	if (IsValid(snakeActor)) {
+		if (value > 0 && snakeActor->lastMovement != EMovement::DOWN)
+			snakeActor->lastMovement = EMovement::UP;
+		else if (value < 0 && snakeActor->lastMovement != EMovement::UP)
+			snakeActor->lastMovement = EMovement::DOWN;
+	}
+}
+
+void AMySnakePawn::HandlePlayerHorizontallInput(float value)
+{
+	if (IsValid(snakeActor)) {
+		if (value > 0 && snakeActor->lastMovement != EMovement::LEFT)
+			snakeActor->lastMovement = EMovement::RIGHT;
+		else if (value < 0 && snakeActor->lastMovement != EMovement::RIGHT)
+			snakeActor->lastMovement = EMovement::LEFT;
+	}
 }
 
