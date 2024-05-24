@@ -65,14 +65,11 @@ void ASnakeBaseActor::MoveSnake()
 		break;
 	}
 
-	//AddActorWorldOffset(movementVector);
-
 	for (int i = snakeElements.Num() - 1; i > 0; --i)
 	{
-		ASnakeElementBaseActor* currentElem = snakeElements[i];
-		ASnakeElementBaseActor* prevElem = snakeElements[i - 1];
-		FVector prevLocation = snakeElements[i - 1]->GetActorLocation();
-		snakeElements[i]->SetActorLocation(prevLocation);
+		auto currentELem = snakeElements[i];
+		auto prevElem = snakeElements[i - 1];
+		currentELem->SetActorLocation(prevElem->GetActorLocation());
 	}
 
 	snakeElements[0]->AddActorWorldOffset(movementVector);
