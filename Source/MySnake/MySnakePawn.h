@@ -27,6 +27,8 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ASnakeBaseActor> snakeActorClass;
 
+	FTimerHandle timerToStep;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -45,5 +47,4 @@ public:
 
 	UFUNCTION()
 	void HandlePlayerHorizontallInput(float value);
-
 };

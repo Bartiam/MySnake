@@ -49,6 +49,7 @@ void AMySnakePawn::HandlePlayerVerticalInput(float value)
 	if (IsValid(snakeActor)) {
 		if (value > 0 && snakeActor->lastMovement != EMovement::DOWN)
 			snakeActor->lastMovement = EMovement::UP;
+
 		else if (value < 0 && snakeActor->lastMovement != EMovement::UP)
 			snakeActor->lastMovement = EMovement::DOWN;
 	}
@@ -59,8 +60,8 @@ void AMySnakePawn::HandlePlayerHorizontallInput(float value)
 	if (IsValid(snakeActor)) {
 		if (value > 0 && snakeActor->lastMovement != EMovement::LEFT)
 			snakeActor->lastMovement = EMovement::RIGHT;
+
 		else if (value < 0 && snakeActor->lastMovement != EMovement::RIGHT)
 			snakeActor->lastMovement = EMovement::LEFT;
 	}
 }
-

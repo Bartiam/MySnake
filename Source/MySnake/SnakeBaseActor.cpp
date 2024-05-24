@@ -11,7 +11,7 @@ ASnakeBaseActor::ASnakeBaseActor()
 	PrimaryActorTick.bCanEverTick = true;
 	padding = 60.f;
 	lastMovement = EMovement::DOWN;
-	movementSpeed = 0.5f;
+	stepIn = 0.5f;
 }
 
 // Called when the game starts or when spawned
@@ -19,7 +19,7 @@ void ASnakeBaseActor::BeginPlay()
 {
 	Super::BeginPlay();
 	AddSnakeElements(5);
-	SetActorTickInterval(movementSpeed);
+	SetActorTickInterval(stepIn);
 }
 
 // Called every frame

@@ -36,7 +36,7 @@ public:
 	EMovement lastMovement;
 
 	UPROPERTY(EditDefaultsOnly)
-	float movementSpeed;
+	float stepIn;
 
 	UPROPERTY(EditDefaultsOnly)
 	float padding;
