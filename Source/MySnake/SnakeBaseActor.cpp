@@ -12,7 +12,7 @@ ASnakeBaseActor::ASnakeBaseActor()
 	PrimaryActorTick.bCanEverTick = true;
 	padding = 60.f;
 	lastMovement = EMovement::DOWN;
-	stepIn = 0.5f;
+	stepIn = 0.3f;
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +37,7 @@ void ASnakeBaseActor::AddSnakeElement(int count)
 		FVector newLocation(snakeElements.Num() * padding, 0, 0);
 		FTransform newTransform(newLocation);
 		ASnakeElementBaseActor* newSnakeElem = GetWorld()->SpawnActor<ASnakeElementBaseActor>(snakeElementClass, newTransform);
+		newSnakeElem->SetActorHiddenInGame(true);
 		newSnakeElem->snakeOwner = this;
 		int32 elemIndex = snakeElements.Add(newSnakeElem);
 		if (elemIndex == 0)
@@ -74,9 +75,11 @@ void ASnakeBaseActor::MoveSnake()
 		auto currentELem = snakeElements[i];
 		auto prevElem = snakeElements[i - 1];
 		currentELem->SetActorLocation(prevElem->GetActorLocation());
+		currentELem->SetActorHiddenInGame(false);
 	}
 
 	snakeElements[0]->AddActorWorldOffset(movementVector);
+	snakeElements[0]->SetActorHiddenInGame(false);
 	snakeElements[0]->ToggleCollision();
 }
 
