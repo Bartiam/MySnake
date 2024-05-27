@@ -38,11 +38,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Creates a "snake" object and spawns it into the game world
 	void CreateSnakeActor();
 
+	// Responsible for the vertical control of the snake
 	UFUNCTION()
 	void HandlePlayerVerticalInput(float value);
 
+	// Responsible for the horizontal control of the snake
 	UFUNCTION()
 	void HandlePlayerHorizontallInput(float value);
 };

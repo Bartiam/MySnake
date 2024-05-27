@@ -41,6 +41,8 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float padding;
 
+	bool isSnakeCanMove;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -49,9 +51,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// Adds a snake element to the array
 	void AddSnakeElement(int count = 1);
 
+	// Determines the movement of the snake
 	void MoveSnake();
 
+	// Checks for an element collision
 	void SnakeElementOverlap(ASnakeElementBaseActor* overlappedComp, AActor* other);
 };

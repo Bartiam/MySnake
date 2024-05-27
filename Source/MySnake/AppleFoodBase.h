@@ -24,5 +24,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// Inherited function from the interface for collision handling
 	virtual void Interact(AActor* interactor, bool bIsHead) override;
 };

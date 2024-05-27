@@ -33,16 +33,20 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// A functions that allows you to set the material in blueprints
 	UFUNCTION(BlueprintNativeEvent)
 	void setFirstElementType();
 	void setFirstElementType_Implementation();
 
+	// Inherited function from the interface for collision handling
 	virtual void Interact(AActor* interactor, bool bIsHead) override;
 
+	// Reacts to the collision of elements and transmits information further
 	UFUNCTION()
 	void HandleBeginOverlap(UPrimitiveComponent* OverlappedComp,
 		AActor* other, UPrimitiveComponent* otherComp,
 		int32 otherBodyIndex,bool bFromSweep, const FHitResult &sweepResult);
 
+	// Toggles the collision of an object for movement
 	void ToggleCollision();
 };

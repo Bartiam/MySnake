@@ -39,29 +39,44 @@ void AMySnakePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis("Horizontal", this, &AMySnakePawn::HandlePlayerHorizontallInput);
 }
 
+// Creates a "snake" object and spawns it into the game world
 void AMySnakePawn::CreateSnakeActor()
 {
 	snakeActor = GetWorld()->SpawnActor<ASnakeBaseActor>(snakeActorClass, FTransform());
 }
 
+// Responsible for the vertical control of the snake
 void AMySnakePawn::HandlePlayerVerticalInput(float value)
 {
 	if (IsValid(snakeActor)) {
-		if (value > 0 && snakeActor->lastMovement != EMovement::DOWN)
+		if (value > 0 && snakeActor->lastMovement != EMovement::DOWN && snakeActor->isSnakeCanMove == true)
+		{
 			snakeActor->lastMovement = EMovement::UP;
+			snakeActor->isSnakeCanMove = false;
+		}
 
-		else if (value < 0 && snakeActor->lastMovement != EMovement::UP)
+		else if (value < 0 && snakeActor->lastMovement != EMovement::UP && snakeActor->isSnakeCanMove == true)
+		{
 			snakeActor->lastMovement = EMovement::DOWN;
+			snakeActor->isSnakeCanMove = false;
+		}
 	}
 }
 
+// Responsible for the horizontal control of the snake
 void AMySnakePawn::HandlePlayerHorizontallInput(float value)
 {
 	if (IsValid(snakeActor)) {
-		if (value > 0 && snakeActor->lastMovement != EMovement::LEFT)
+		if (value > 0 && snakeActor->lastMovement != EMovement::LEFT && snakeActor->isSnakeCanMove == true)
+		{
 			snakeActor->lastMovement = EMovement::RIGHT;
+			snakeActor->isSnakeCanMove = false;
+		}
 
-		else if (value < 0 && snakeActor->lastMovement != EMovement::RIGHT)
+		else if (value < 0 && snakeActor->lastMovement != EMovement::RIGHT && snakeActor->isSnakeCanMove == true)
+		{
 			snakeActor->lastMovement = EMovement::LEFT;
+			snakeActor->isSnakeCanMove = false;
+		}
 	}
 }

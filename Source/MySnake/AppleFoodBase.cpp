@@ -26,6 +26,7 @@ void AAppleFoodBase::Tick(float DeltaTime)
 
 }
 
+// Inherited function from the interface for collision handling
 void AAppleFoodBase::Interact(AActor* interactor, bool bIsHead)
 {
 	if (IsValid(interactor))

@@ -29,11 +29,13 @@ void ASnakeElementBaseActor::Tick(float DeltaTime)
 
 }
 
+// A functions that allows you to set the material in blueprints
 void ASnakeElementBaseActor::setFirstElementType_Implementation()
 {
 	meshComponent->OnComponentBeginOverlap.AddDynamic(this, &ASnakeElementBaseActor::HandleBeginOverlap);
 }
 
+// Inherited function from the interface for collision handling
 void ASnakeElementBaseActor::Interact(AActor* interactor, bool bIsHead)
 {
 	auto snake = Cast<ASnakeBaseActor>(interactor);
@@ -48,6 +50,7 @@ void ASnakeElementBaseActor::Interact(AActor* interactor, bool bIsHead)
 	}
 }
 
+// Reacts to the collision of elements and transmits information further
 void ASnakeElementBaseActor::HandleBeginOverlap(UPrimitiveComponent* OverlappedComp,
 	AActor* other, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool bFromSweep,
 	const FHitResult& sweepResult)
@@ -58,6 +61,7 @@ void ASnakeElementBaseActor::HandleBeginOverlap(UPrimitiveComponent* OverlappedC
 	}
 }
 
+// Toggles the collision of an object for movement
 void ASnakeElementBaseActor::ToggleCollision()
 {
 	if (meshComponent->GetCollisionEnabled() == ECollisionEnabled::NoCollision)

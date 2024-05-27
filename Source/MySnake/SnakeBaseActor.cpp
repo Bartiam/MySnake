@@ -13,6 +13,7 @@ ASnakeBaseActor::ASnakeBaseActor()
 	padding = 60.f;
 	lastMovement = EMovement::DOWN;
 	stepIn = 0.3f;
+	isSnakeCanMove = true;
 }
 
 // Called when the game starts or when spawned
@@ -30,6 +31,7 @@ void ASnakeBaseActor::Tick(float DeltaTime)
 	MoveSnake();
 }
 
+// Adds a snake element to the array
 void ASnakeBaseActor::AddSnakeElement(int count)
 {
 	for (int i = 0; i < count; ++i)
@@ -48,8 +50,11 @@ void ASnakeBaseActor::AddSnakeElement(int count)
 	}
 }
 
+// Determines the movement of the snake
 void ASnakeBaseActor::MoveSnake()
 {
+	isSnakeCanMove = true;
+
 	FVector movementVector(ForceInitToZero);
 
 	switch (lastMovement)
@@ -83,6 +88,7 @@ void ASnakeBaseActor::MoveSnake()
 	snakeElements[0]->ToggleCollision();
 }
 
+// Checks for an element collision
 void ASnakeBaseActor::SnakeElementOverlap(ASnakeElementBaseActor* overlappedComp, AActor* other)
 {
 	if (IsValid(overlappedComp))
