@@ -39,9 +39,9 @@ void ASnakeElementBaseActor::Interact(AActor* interactor, bool bIsHead)
 	auto snake = Cast<ASnakeBaseActor>(interactor);
 	if (IsValid(snake))
 	{
-		auto size = snake->snakeElements.Num();
-		for (int i = 0; i < size; ++i)
+		for (int i = 0; i < snake->snakeElements.Num();)
 		{
+			snake->snakeElements[i]->Destroy();
 			snake->snakeElements.RemoveAt(i);
 		}
 		snake->Destroy();
