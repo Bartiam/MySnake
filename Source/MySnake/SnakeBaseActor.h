@@ -35,7 +35,7 @@ public:
 	UPROPERTY()
 	EMovement lastMovement;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY()
 	float stepIn;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -49,8 +49,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void AddSnakeElements(int count = 1);
+	void AddSnakeElement(int count = 1);
 
 	void MoveSnake();
 
+	void SnakeElementOverlap(ASnakeElementBaseActor* overlappedComp, AActor* other);
 };

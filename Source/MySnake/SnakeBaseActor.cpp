@@ -3,6 +3,7 @@
 
 #include "SnakeBaseActor.h"
 #include "SnakeElementBaseActor.h"
+#include "Interactable.h"
 
 // Sets default values
 ASnakeBaseActor::ASnakeBaseActor()
@@ -18,7 +19,7 @@ ASnakeBaseActor::ASnakeBaseActor()
 void ASnakeBaseActor::BeginPlay()
 {
 	Super::BeginPlay();
-	AddSnakeElements(5);
+	AddSnakeElement(4);
 	SetActorTickInterval(stepIn);
 }
 
@@ -29,17 +30,19 @@ void ASnakeBaseActor::Tick(float DeltaTime)
 	MoveSnake();
 }
 
-void ASnakeBaseActor::AddSnakeElements(int count)
+void ASnakeBaseActor::AddSnakeElement(int count)
 {
 	for (int i = 0; i < count; ++i)
 	{
 		FVector newLocation(snakeElements.Num() * padding, 0, 0);
 		FTransform newTransform(newLocation);
 		ASnakeElementBaseActor* newSnakeElem = GetWorld()->SpawnActor<ASnakeElementBaseActor>(snakeElementClass, newTransform);
+		newSnakeElem->snakeOwner = this;
 		int32 elemIndex = snakeElements.Add(newSnakeElem);
 		if (elemIndex == 0)
 		{
 			newSnakeElem->setFirstElementType();
+			newSnakeElem->setFirstElementType_Implementation();
 		}
 	}
 }
@@ -47,23 +50,24 @@ void ASnakeBaseActor::AddSnakeElements(int count)
 void ASnakeBaseActor::MoveSnake()
 {
 	FVector movementVector(ForceInitToZero);
-	float currentSpeed = padding;
 
 	switch (lastMovement)
 	{
 	case EMovement::UP:
-		movementVector.X += currentSpeed;
+		movementVector.X += padding;
 		break;
 	case EMovement::DOWN:
-		movementVector.X -= currentSpeed;
+		movementVector.X -= padding;
 		break;
 	case EMovement::LEFT:
-		movementVector.Y += currentSpeed;
+		movementVector.Y += padding;
 		break;
 	case EMovement::RIGHT:
-		movementVector.Y -= currentSpeed;
+		movementVector.Y -= padding;
 		break;
 	}
+
+	snakeElements[0]->ToggleCollision();
 
 	for (int i = snakeElements.Num() - 1; i > 0; --i)
 	{
@@ -73,5 +77,20 @@ void ASnakeBaseActor::MoveSnake()
 	}
 
 	snakeElements[0]->AddActorWorldOffset(movementVector);
+	snakeElements[0]->ToggleCollision();
 }
 
+void ASnakeBaseActor::SnakeElementOverlap(ASnakeElementBaseActor* overlappedComp, AActor* other)
+{
+	if (IsValid(overlappedComp))
+	{
+		int32 indexElem;
+		snakeElements.Find(overlappedComp, indexElem);
+		bool bIsHead = indexElem == 0;
+		IInteractable* interactableInterface = Cast<IInteractable>(other);
+		if (interactableInterface)
+		{
+			interactableInterface->Interact(this, bIsHead);
+		}
+	}
+}
