@@ -18,7 +18,7 @@ public:
 	// Sets default values for this pawn's properties
 	AMySnakePawn();
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 	UCameraComponent* mainCamera;
 
 	UPROPERTY(BlueprintReadWrite)

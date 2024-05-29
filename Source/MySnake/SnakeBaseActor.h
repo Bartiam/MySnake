@@ -59,4 +59,7 @@ public:
 
 	// Checks for an element collision
 	void SnakeElementOverlap(ASnakeElementBaseActor* overlappedComp, AActor* other);
+
+	// The snake-destroying function
+	void DestroyFullSnakeElements();
 };

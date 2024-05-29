@@ -40,14 +40,7 @@ void ASnakeElementBaseActor::Interact(AActor* interactor, bool bIsHead)
 {
 	auto snake = Cast<ASnakeBaseActor>(interactor);
 	if (IsValid(snake))
-	{
-		for (int i = 0; i < snake->snakeElements.Num();)
-		{
-			snake->snakeElements[i]->Destroy();
-			snake->snakeElements.RemoveAt(i);
-		}
-		snake->Destroy();
-	}
+		snake->DestroyFullSnakeElements();
 }
 
 // Reacts to the collision of elements and transmits information further

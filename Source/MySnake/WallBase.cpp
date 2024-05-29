@@ -1,48 +1,40 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AppleFoodBase.h"
+#include "WallBase.h"
+#include "Engine/Classes/Components/StaticMeshComponent.h"
 #include "SnakeBaseActor.h"
 
 // Sets default values
-AAppleFoodBase::AAppleFoodBase()
+AWallBase::AWallBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	meshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Wall"));
 }
 
 // Called when the game starts or when spawned
-void AAppleFoodBase::BeginPlay()
+void AWallBase::BeginPlay()
 {
 	Super::BeginPlay();
-	CreateFoodInTheWorld();
+	
 }
 
 // Called every frame
-void AAppleFoodBase::Tick(float DeltaTime)
+void AWallBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
 // Inherited function from the interface for collision handling
-void AAppleFoodBase::Interact(AActor* interactor, bool bIsHead)
+void AWallBase::Interact(AActor* interactor, bool bIsHead)
 {
 	if (IsValid(interactor))
 	{
 		auto snake = Cast<ASnakeBaseActor>(interactor);
 		if (IsValid(snake))
-		{
-			snake->AddSnakeElement();
-			Destroy();
-			CreateFoodInTheWorld();
-		}
+			snake->DestroyFullSnakeElements();
 	}
-}
-
-void AAppleFoodBase::CreateFoodInTheWorld(int count)
-{
-
 }
 

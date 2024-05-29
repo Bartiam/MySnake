@@ -12,7 +12,7 @@ ASnakeBaseActor::ASnakeBaseActor()
 	PrimaryActorTick.bCanEverTick = true;
 	padding = 60.f;
 	lastMovement = EMovement::DOWN;
-	stepIn = 0.3f;
+	stepIn = 0.4f;
 	isSnakeCanMove = true;
 }
 
@@ -36,7 +36,7 @@ void ASnakeBaseActor::AddSnakeElement(int count)
 {
 	for (int i = 0; i < count; ++i)
 	{
-		FVector newLocation(snakeElements.Num() * padding, 0, 0);
+		FVector newLocation(snakeElements.Num() * padding + 30, 30, 40.f);
 		FTransform newTransform(newLocation);
 		ASnakeElementBaseActor* newSnakeElem = GetWorld()->SpawnActor<ASnakeElementBaseActor>(snakeElementClass, newTransform);
 		newSnakeElem->SetActorHiddenInGame(true);
@@ -102,4 +102,15 @@ void ASnakeBaseActor::SnakeElementOverlap(ASnakeElementBaseActor* overlappedComp
 			interactableInterface->Interact(this, bIsHead);
 		}
 	}
+}
+
+// The snake-destroying function
+void ASnakeBaseActor::DestroyFullSnakeElements()
+{
+	for (int i = 0; i < snakeElements.Num();)
+	{
+		snakeElements[i]->Destroy();
+		snakeElements.RemoveAt(i);
+	}
+	Destroy();
 }
