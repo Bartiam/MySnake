@@ -4,17 +4,28 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Interactable.h"
-#include "AppleFoodBase.generated.h"
+#include "GroundBase.generated.h"
+
+class UStaticMeshComponent;
+class AFoodBase;
 
 UCLASS()
-class MYSNAKE_API AAppleFoodBase : public AActor, public IInteractable
+class MYSNAKE_API AGroundBase : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AAppleFoodBase();
+	AGroundBase();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UStaticMeshComponent* meshComponent;
+
+	UPROPERTY(BlueprintReadWrite)
+	AFoodBase* food;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AFoodBase> foodClass;
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,9 +35,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Inherited function from the interface for collision handling
-	virtual void Interact(AActor* interactor, bool bIsHead) override;
-
-	// Creates actor food in a random place
+	// Creating food in random coordinates of the world
 	void CreateFoodInTheWorld(int count = 1);
 };

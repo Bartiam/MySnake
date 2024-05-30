@@ -49,13 +49,13 @@ void AMySnakePawn::CreateSnakeActor()
 void AMySnakePawn::HandlePlayerVerticalInput(float value)
 {
 	if (IsValid(snakeActor)) {
-		if (value > 0 && snakeActor->lastMovement != EMovement::DOWN && snakeActor->isSnakeCanMove == true)
+		if (value > 0 && snakeActor->lastMovement != EMovement::DOWN && snakeActor->isSnakeCanMove)
 		{
 			snakeActor->lastMovement = EMovement::UP;
 			snakeActor->isSnakeCanMove = false;
 		}
 
-		else if (value < 0 && snakeActor->lastMovement != EMovement::UP && snakeActor->isSnakeCanMove == true)
+		else if (value < 0 && snakeActor->lastMovement != EMovement::UP && snakeActor->isSnakeCanMove)
 		{
 			snakeActor->lastMovement = EMovement::DOWN;
 			snakeActor->isSnakeCanMove = false;
@@ -67,13 +67,13 @@ void AMySnakePawn::HandlePlayerVerticalInput(float value)
 void AMySnakePawn::HandlePlayerHorizontallInput(float value)
 {
 	if (IsValid(snakeActor)) {
-		if (value > 0 && snakeActor->lastMovement != EMovement::LEFT && snakeActor->isSnakeCanMove == true)
+		if (value > 0 && snakeActor->lastMovement != EMovement::LEFT && snakeActor->isSnakeCanMove)
 		{
 			snakeActor->lastMovement = EMovement::RIGHT;
 			snakeActor->isSnakeCanMove = false;
 		}
 
-		else if (value < 0 && snakeActor->lastMovement != EMovement::RIGHT && snakeActor->isSnakeCanMove == true)
+		else if (value < 0 && snakeActor->lastMovement != EMovement::RIGHT && snakeActor->isSnakeCanMove)
 		{
 			snakeActor->lastMovement = EMovement::LEFT;
 			snakeActor->isSnakeCanMove = false;

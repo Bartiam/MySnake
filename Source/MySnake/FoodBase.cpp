@@ -1,11 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AppleFoodBase.h"
+#include "FoodBase.h"
 #include "SnakeBaseActor.h"
+#include "GroundBase.h"
 
 // Sets default values
-AAppleFoodBase::AAppleFoodBase()
+AFoodBase::AFoodBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,21 +14,22 @@ AAppleFoodBase::AAppleFoodBase()
 }
 
 // Called when the game starts or when spawned
-void AAppleFoodBase::BeginPlay()
+void AFoodBase::BeginPlay()
 {
 	Super::BeginPlay();
-	CreateFoodInTheWorld();
 }
 
 // Called every frame
-void AAppleFoodBase::Tick(float DeltaTime)
+void AFoodBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
 // Inherited function from the interface for collision handling
-void AAppleFoodBase::Interact(AActor* interactor, bool bIsHead)
+
+// Inherited function from the interface for collision handling
+void AFoodBase::Interact(AActor* interactor, bool bIsHead)
 {
 	if (IsValid(interactor))
 	{
@@ -36,13 +38,9 @@ void AAppleFoodBase::Interact(AActor* interactor, bool bIsHead)
 		{
 			snake->AddSnakeElement();
 			Destroy();
-			CreateFoodInTheWorld();
 		}
 	}
 }
 
-void AAppleFoodBase::CreateFoodInTheWorld(int count)
-{
 
-}
 
