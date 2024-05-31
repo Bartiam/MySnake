@@ -30,6 +30,8 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float maxPositionY;
 
+	float posZ = 40.f;
+
 	UPROPERTY()
 	TArray<FVector> sectors;
 
@@ -45,7 +47,8 @@ public:
 	virtual void Interact(AActor* interactor, bool bIsHead) override;
 
 	// Creating food in random coordinates of the world
-	void CreateFoodInTheWorld(int count = 1);
+	void CreateFoodInTheWorld(AActor* interactor, int count = 1);
 
+	// Sets the sectors of food appearance
 	void setCountSectors();
 };

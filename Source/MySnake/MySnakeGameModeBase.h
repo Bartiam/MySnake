@@ -13,5 +13,4 @@ UCLASS()
 class MYSNAKE_API AMySnakeGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };

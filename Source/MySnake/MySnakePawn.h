@@ -8,6 +8,7 @@
 
 class UCameraComponent;
 class ASnakeBaseActor;
+class UUserWidget;
 
 UCLASS()
 class MYSNAKE_API AMySnakePawn : public APawn
@@ -26,6 +27,13 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ASnakeBaseActor> snakeActorClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSubclassOf<UUserWidget> playerHUDClass;
+
+	UPROPERTY()
+	UUserWidget* mainWidget;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -48,4 +56,7 @@ public:
 	// Responsible for the horizontal control of the snake
 	UFUNCTION()
 	void HandlePlayerHorizontallInput(float value);
+
+	// 
+	void DisplayingPointsOnTheScreen();
 };

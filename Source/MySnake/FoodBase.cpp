@@ -4,6 +4,7 @@
 #include "FoodBase.h"
 #include "SnakeBaseActor.h"
 #include "Engine/Classes/Components/StaticMeshComponent.h"
+#include "SnakeElementBaseActor.h"
 
 // Sets default values
 AFoodBase::AFoodBase()
@@ -11,8 +12,6 @@ AFoodBase::AFoodBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	meshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
-	meshComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	meshComponent->SetCollisionResponseToAllChannels(ECR_Overlap);
 }
 
 // Called when the game starts or when spawned
@@ -38,30 +37,48 @@ void AFoodBase::Interact(AActor* interactor, bool bIsHead)
 		if (IsValid(snake))
 		{
 			snake->AddSnakeElement();
-			CreateFoodInTheWorld();
+			snake->scores++;
+			CreateFoodInTheWorld(snake);
 		}
 	}
 }
 
 // Creating food in random coordinates of the world
-void AFoodBase::CreateFoodInTheWorld(int count)
+void AFoodBase::CreateFoodInTheWorld(AActor* interactor, int count)
 {
+	auto snake = Cast<ASnakeBaseActor>(interactor);
+
+	if (!(IsValid(snake)))
+		return;
+
+	int temp;
+
 	for (int i = 0; i < count; ++i)
 	{
-		int temp = FMath::FRandRange(0, sectors.Num() - 1);
-		SetActorLocation(sectors[temp]);
+		temp = FMath::FRandRange(0, sectors.Num());
+		for (int j = 0; j < snake->snakeElements.Num(); ++j)
+		{
+			if (snake->snakeElements[j]->GetActorLocation() == sectors[temp])
+			{
+				--i;
+				break;
+			}
+		}
 	}
+
+	SetActorLocation(sectors[temp]);
 }
 
+// Sets the sectors of food appearance
 void AFoodBase::setCountSectors()
 {
 	int indexSectorElement = 0;
 
-	for (float i = minPositionX; i < maxPositionX; i += 60.f)
+	for (float i = minPositionX; i <= maxPositionX; i += 60.f)
 	{
-		for (float j = minPositionY; j < maxPositionY; j += 60.f)
+		for (float j = minPositionY; j <= maxPositionY; j += 60.f)
 		{
-			sectors.Add(FVector(i, j, 40.f));
+			sectors.Add(FVector(i, j, posZ));
 			indexSectorElement++;
 		}
 	}

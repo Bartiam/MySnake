@@ -5,6 +5,7 @@
 #include "Engine/Classes/Camera/CameraComponent.h"
 #include "SnakeBaseActor.h"
 #include "Components/InputComponent.h"
+#include "Blueprint/UserWidget.h"
 
 // Sets default values
 AMySnakePawn::AMySnakePawn()
@@ -21,6 +22,7 @@ void AMySnakePawn::BeginPlay()
 	Super::BeginPlay();
 	mainCamera->SetWorldRotation(FRotator(-90, 0, 0));
 	CreateSnakeActor();
+	DisplayingPointsOnTheScreen();
 }
 
 // Called every frame
@@ -78,5 +80,16 @@ void AMySnakePawn::HandlePlayerHorizontallInput(float value)
 			snakeActor->lastMovement = EMovement::LEFT;
 			snakeActor->isSnakeCanMove = false;
 		}
+	}
+}
+
+// 
+void AMySnakePawn::DisplayingPointsOnTheScreen()
+{
+	if (snakeActor != nullptr)
+	{
+		mainWidget = CreateWidget<UUserWidget>(GetWorld(), playerHUDClass);
+		if (mainWidget != nullptr)
+			mainWidget->AddToViewport();
 	}
 }

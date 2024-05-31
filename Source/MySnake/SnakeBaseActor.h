@@ -43,6 +43,9 @@ public:
 
 	bool isSnakeCanMove;
 
+	UPROPERTY(BlueprintReadWrite)
+	int32 scores = 0;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
