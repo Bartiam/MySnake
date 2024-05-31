@@ -20,7 +20,7 @@ ASnakeBaseActor::ASnakeBaseActor()
 void ASnakeBaseActor::BeginPlay()
 {
 	Super::BeginPlay();
-	AddSnakeElement(4);
+	AddSnakeElement(startCountSnakeElements);
 	SetActorTickInterval(stepIn);
 }
 

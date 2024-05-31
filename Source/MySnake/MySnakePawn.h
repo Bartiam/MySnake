@@ -28,13 +28,6 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ASnakeBaseActor> snakeActorClass;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	TSubclassOf<UUserWidget> playerHUDClass;
-
-	UPROPERTY()
-	UUserWidget* mainWidget;
-
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -56,7 +49,4 @@ public:
 	// Responsible for the horizontal control of the snake
 	UFUNCTION()
 	void HandlePlayerHorizontallInput(float value);
-
-	// 
-	void DisplayingPointsOnTheScreen();
 };

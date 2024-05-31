@@ -46,6 +46,8 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int32 scores = 0;
 
+	const int8 startCountSnakeElements = 4;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -65,4 +67,6 @@ public:
 
 	// The snake-destroying function
 	void DestroyFullSnakeElements();
+
+
 };
