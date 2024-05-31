@@ -49,4 +49,7 @@ public:
 	// Responsible for the horizontal control of the snake
 	UFUNCTION()
 	void HandlePlayerHorizontallInput(float value);
+
+	// 
+	void RestartGame();
 };

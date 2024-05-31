@@ -18,7 +18,6 @@ AFoodBase::AFoodBase()
 void AFoodBase::BeginPlay()
 {
 	Super::BeginPlay();
-	setCountSectors();
 }
 
 // Called every frame
@@ -37,8 +36,10 @@ void AFoodBase::Interact(AActor* interactor, bool bIsHead)
 		if (IsValid(snake))
 		{
 			snake->AddSnakeElement();
-			snake->scores++;
-			CreateFoodInTheWorld(snake);
+			if (snake->CheckNumberOfPoints())
+			{
+				CreateFoodInTheWorld(snake);
+			}
 		}
 	}
 }
@@ -55,10 +56,10 @@ void AFoodBase::CreateFoodInTheWorld(AActor* interactor, int count)
 
 	for (int i = 0; i < count; ++i)
 	{
-		temp = FMath::FRandRange(0, sectors.Num());
+		temp = FMath::FRandRange(0, snake->sectors.Num());
 		for (int j = 0; j < snake->snakeElements.Num(); ++j)
 		{
-			if (snake->snakeElements[j]->GetActorLocation() == sectors[temp])
+			if (snake->snakeElements[j]->GetActorLocation() == snake->sectors[temp])
 			{
 				--i;
 				break;
@@ -66,21 +67,6 @@ void AFoodBase::CreateFoodInTheWorld(AActor* interactor, int count)
 		}
 	}
 
-	SetActorLocation(sectors[temp]);
-}
-
-// Sets the sectors of food appearance
-void AFoodBase::setCountSectors()
-{
-	int indexSectorElement = 0;
-
-	for (float i = minPositionX; i <= maxPositionX; i += 60.f)
-	{
-		for (float j = minPositionY; j <= maxPositionY; j += 60.f)
-		{
-			sectors.Add(FVector(i, j, posZ));
-			indexSectorElement++;
-		}
-	}
+	SetActorLocation(snake->sectors[temp]);
 }
 

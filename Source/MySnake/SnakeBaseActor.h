@@ -7,6 +7,7 @@
 #include "SnakeBaseActor.generated.h"
 
 class ASnakeElementBaseActor;
+class AAppleBase;
 
 UENUM()
 enum class EMovement
@@ -48,6 +49,25 @@ public:
 
 	const int8 startCountSnakeElements = 4;
 
+
+	// Variables for determining food spawn sectors
+	UPROPERTY(EditDefaultsOnly)
+	float minPositionX;
+	UPROPERTY(EditDefaultsOnly)
+	float minPositionY;
+	UPROPERTY(EditDefaultsOnly)
+	float maxPositionX;
+	UPROPERTY(EditDefaultsOnly)
+	float maxPositionY;
+
+	float posZ = 40.f;
+
+	UPROPERTY()
+	TArray<FVector> sectors;
+	// Variables for determining food spawn sectors
+
+	AAppleBase* apple;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -68,5 +88,15 @@ public:
 	// The snake-destroying function
 	void DestroyFullSnakeElements();
 
+	// Sets the sectors of food appearance
+	void setCountSectors();
 
+	// Checks the number of points
+	bool CheckNumberOfPoints();
+
+	void IncreasesTheSpeedSnake();
+
+	void ReducesTheSpeedSnake();
+
+	void Teleport();
 };

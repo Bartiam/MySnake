@@ -5,21 +5,35 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Interactable.h"
-#include "FoodBase.generated.h"
+#include "PortalBase.generated.h"
 
+class AAppleBase;
 class UStaticMeshComponent;
+class ABadAppleBase;
 
 UCLASS()
-class MYSNAKE_API AFoodBase : public AActor, public IInteractable
+class MYSNAKE_API APortalBase : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AFoodBase();
+	APortalBase();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	UStaticMeshComponent* meshComponent;
+	UPROPERTY(BlueprintReadWrite)
+	AAppleBase* apple;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AAppleBase> appleClass;
+
+	UPROPERTY(BlueprintReadWrite)
+	ABadAppleBase* badApple;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ABadAppleBase> badAppleClass;
+
+	UPROPERTY(EditDefaultsOnly ,BlueprintReadWrite)
+	UStaticMeshComponent* portalMesh;
 
 protected:
 	// Called when the game starts or when spawned
@@ -32,6 +46,5 @@ public:
 	// Inherited function from the interface for collision handling
 	virtual void Interact(AActor* interactor, bool bIsHead) override;
 
-	// Creating food in random coordinates of the world
-	void CreateFoodInTheWorld(AActor* interactor, int count = 1);
+	void SpawnApple(AActor* snake);
 };

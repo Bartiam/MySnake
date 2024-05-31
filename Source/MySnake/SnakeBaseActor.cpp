@@ -22,6 +22,7 @@ void ASnakeBaseActor::BeginPlay()
 	Super::BeginPlay();
 	AddSnakeElement(startCountSnakeElements);
 	SetActorTickInterval(stepIn);
+	setCountSectors();
 }
 
 // Called every frame
@@ -112,4 +113,51 @@ void ASnakeBaseActor::DestroyFullSnakeElements()
 		snakeElements.RemoveAt(i);
 	}
 	Destroy();
+}
+
+// Sets the sectors of food appearance
+void ASnakeBaseActor::setCountSectors()
+{
+	int indexSectorElement = 0;
+
+	for (float i = minPositionX; i <= maxPositionX; i += 60.f)
+	{
+		for (float j = minPositionY; j <= maxPositionY; j += 60.f)
+		{
+			sectors.Add(FVector(i, j, posZ));
+			indexSectorElement++;
+		}
+	}
+}
+
+// Checks the number of points
+bool ASnakeBaseActor::CheckNumberOfPoints()
+{
+	if (scores < (sectors.Num() - startCountSnakeElements))
+	{
+		scores++;
+		return true;
+	}
+	else return false;
+}
+
+void ASnakeBaseActor::IncreasesTheSpeedSnake()
+{
+	stepIn -= 0.05f;
+	SetActorTickInterval(stepIn);
+}
+
+void ASnakeBaseActor::ReducesTheSpeedSnake()
+{
+	stepIn += 0.05f;
+	SetActorTickInterval(stepIn);
+}
+
+void ASnakeBaseActor::Teleport()
+{
+	FVector location = snakeElements[0]->GetActorLocation();
+	if (location.Y < 0)
+		snakeElements[0]->SetActorLocation(FVector(location.X, (location.Y + 60) * (-1), location.Z));
+	else 
+		snakeElements[0]->SetActorLocation(FVector(location.X, (location.Y - 60) * (-1), location.Z));
 }

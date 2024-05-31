@@ -38,6 +38,7 @@ void AMySnakePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	PlayerInputComponent->BindAxis("Vertical", this, &AMySnakePawn::HandlePlayerVerticalInput);
 	PlayerInputComponent->BindAxis("Horizontal", this, &AMySnakePawn::HandlePlayerHorizontallInput);
+	PlayerInputComponent->BindAction("Restart", EInputEvent::IE_Pressed, this, &AMySnakePawn::RestartGame);
 }
 
 // Creates a "snake" object and spawns it into the game world
@@ -80,4 +81,11 @@ void AMySnakePawn::HandlePlayerHorizontallInput(float value)
 			snakeActor->isSnakeCanMove = false;
 		}
 	}
+}
+
+void AMySnakePawn::RestartGame()
+{
+	if (snakeActor != nullptr)
+		snakeActor->DestroyFullSnakeElements();
+	CreateSnakeActor();
 }
